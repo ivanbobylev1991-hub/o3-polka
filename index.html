@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O3 Finance — Полка партнёрских продуктов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F0E6; --paper2:#FBF8F1; --card:#FFFFFF; --sidebar:#FCFAF4;
+  --navy:#17324F; --navy2:#25415E; --ink:#2C3038; --muted:#6B7076; --muted2:#9AA0A6;
+  --gold:#9A7B33; --gold2:#B8892F; --gold-line:rgba(154,123,51,.30);
+  --line:rgba(23,50,79,.13); --hair:rgba(23,50,79,.07);
+  --red:#A8493F; --shadow:0 22px 55px -32px rgba(23,50,79,.4);
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper); color:var(--ink); font-family:'Inter',-apple-system,Segoe UI,Roboto,sans-serif; font-size:15px; line-height:1.58; -webkit-font-smoothing:antialiased; font-feature-settings:"tnum" 1}
+h1,h2,h3,h4{font-family:'Lora',Georgia,serif; font-weight:600; margin:0; color:var(--navy); letter-spacing:.1px}
+a{color:inherit;text-decoration:none}
+
+.app{display:grid; grid-template-columns:296px 1fr; min-height:100vh}
+.sidebar{background:var(--sidebar); border-right:1px solid var(--line); padding:28px 24px 44px; position:sticky; top:0; height:100vh; overflow-y:auto}
+.main{min-width:0; display:flex; flex-direction:column; background:var(--paper)}
+
+/* Brand / sidebar head */
+.brand{display:flex; align-items:center; gap:13px; margin-bottom:4px}
+.brand .mark{width:42px;height:42px;border:1.5px solid var(--gold); border-radius:50%; display:grid;place-items:center; color:var(--gold); font-family:'Lora',serif; font-size:18px; font-weight:700; flex:none}
+.brand .n1{font-size:15px; letter-spacing:3px; font-weight:600; color:var(--navy)}
+.brand .n2{font-size:10px; letter-spacing:2.2px; color:var(--muted); text-transform:uppercase}
+.side-title{font-family:'Lora',serif; font-size:23px; color:var(--navy); margin:24px 0 4px; line-height:1.15}
+.side-sub{font-size:12px; color:var(--muted); margin-bottom:26px}
+
+/* Filters */
+.f-block{margin-bottom:24px}
+.f-label{font-size:10.5px; letter-spacing:1.6px; text-transform:uppercase; color:var(--gold); margin-bottom:11px; display:flex; justify-content:space-between; align-items:center}
+.search{width:100%; background:var(--card); border:1px solid var(--line); color:var(--ink); padding:11px 13px; border-radius:var(--radius); font-family:inherit; font-size:13.5px; outline:none; transition:.15s}
+.search::placeholder{color:var(--muted2)}
+.search:focus{border-color:var(--gold-line); box-shadow:0 0 0 3px rgba(154,123,51,.08)}
+.track-list{display:flex; flex-direction:column; gap:2px}
+.track-item{display:flex; align-items:center; gap:11px; padding:9px 11px; border-radius:var(--radius); cursor:pointer; color:var(--muted); font-size:13.5px; border:1px solid transparent; transition:all .15s}
+.track-item:hover{background:var(--paper); color:var(--navy)}
+.track-item.on{background:#fff; color:var(--navy); border-color:var(--gold-line); box-shadow:0 1px 0 rgba(23,50,79,.03)}
+.track-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.4;flex:none;opacity:.8}
+.track-item.on svg{color:var(--gold2); opacity:1}
+.track-item .cnt{margin-left:auto; font-size:11px; color:var(--muted2); font-variant-numeric:tabular-nums}
+.track-item.on .cnt{color:var(--gold2); font-weight:600}
+select.pick{width:100%; background:var(--card); border:1px solid var(--line); color:var(--navy2); padding:10px 12px; border-radius:var(--radius); font-family:inherit; font-size:13px; outline:none; cursor:pointer; appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%); background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%; background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+select.pick:focus{border-color:var(--gold-line)}
+.chips{display:flex; flex-wrap:wrap; gap:7px}
+.chip{padding:7px 13px; border:1px solid var(--line); border-radius:20px; font-size:12px; color:var(--navy2); cursor:pointer; transition:all .15s; background:var(--card)}
+.chip:hover{border-color:var(--gold-line); color:var(--navy)}
+.chip.on{background:var(--navy); border-color:var(--navy); color:var(--paper); font-weight:500}
+.toggle-row{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted); cursor:pointer}
+.switch{width:38px;height:21px;background:var(--card);border:1px solid var(--line);border-radius:20px;position:relative;transition:.2s;flex:none}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--muted2);transition:.2s}
+.switch.on{background:rgba(154,123,51,.2);border-color:var(--gold)}
+.switch.on::after{left:19px;background:var(--gold2)}
+.reset{margin-top:6px; font-size:12px; color:var(--muted2); cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+.reset:hover{color:var(--gold2)}
+
+/* Topbar / hero */
+.topbar{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; padding:34px 46px 24px; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(245,240,230,.92); backdrop-filter:blur(8px); z-index:20}
+.topbar .kick{font-size:11px; letter-spacing:2.6px; text-transform:uppercase; color:var(--gold); margin-bottom:12px}
+.topbar h1{font-size:34px; color:var(--navy); line-height:1.1; letter-spacing:-.3px; max-width:640px}
+.topbar h1 em{font-style:italic; color:var(--gold2)}
+.topbar .lead{font-size:14px; color:var(--muted); margin-top:12px; max-width:600px; line-height:1.6}
+.top-right{display:flex; flex-direction:column; align-items:flex-end; gap:14px; flex:none}
+.count-pill{font-size:12.5px; color:var(--muted)}
+.count-pill b{color:var(--navy); font-family:'Lora',serif; font-size:15px}
+.mode-toggle{display:flex; align-items:center; gap:9px; font-size:12.5px; color:var(--muted); cursor:pointer; user-select:none; white-space:nowrap}
+
+/* Grid */
+.grid-wrap{padding:28px 46px 64px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:20px}
+.card{background:var(--card); border:1px solid var(--line); border-radius:9px; padding:23px; cursor:pointer; position:relative; overflow:hidden; transition:transform .18s ease,border-color .18s,box-shadow .18s; display:flex; flex-direction:column; min-height:242px}
+.card::after{content:""; position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold2)); opacity:0; transition:.18s}
+.card:hover{transform:translateY(-4px); border-color:var(--gold-line); box-shadow:var(--shadow)}
+.card:hover::after{opacity:1}
+.card.is-real{background:linear-gradient(180deg,#fff,#FCFAF3)}
+.card.is-real::after{opacity:.4}
+.card-top{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:13px}
+.tchip{display:inline-flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--gold)}
+.tchip svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5}
+.status{font-size:10px; letter-spacing:.4px; color:var(--muted); padding:3px 9px; border:1px solid var(--line); border-radius:20px; white-space:nowrap}
+.status.hot{color:var(--navy); border-color:var(--gold-line); background:rgba(154,123,51,.06)}
+.provider{font-size:11px; color:var(--muted); margin-bottom:6px; letter-spacing:.3px}
+.card h3{font-size:20px; color:var(--navy); line-height:1.22; margin-bottom:8px}
+.tagline{font-size:13px; color:var(--muted); line-height:1.45; margin-bottom:15px; flex:1}
+.assets{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:15px}
+.asset{font-size:10.5px; color:var(--navy2); background:var(--paper); border:1px solid var(--hair); padding:4px 8px; border-radius:4px}
+.metrics{display:flex; gap:22px; margin-bottom:15px}
+.metric .mv{font-family:'Lora',serif; font-size:22px; color:var(--navy); line-height:1; font-weight:600; font-variant-numeric:tabular-nums}
+.metric .ml{font-size:10px; color:var(--muted); margin-top:5px; max-width:125px; line-height:1.32}
+.card-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:14px; border-top:1px solid var(--hair)}
+.commission{font-size:11.5px; color:var(--muted)}
+.commission b{color:var(--gold2); font-family:'Lora',serif; font-size:16px; font-variant-numeric:tabular-nums}
+.entry-mini{font-size:11.5px; color:var(--muted)}
+.more{font-size:12.5px; color:var(--navy); font-weight:500; display:flex; align-items:center; gap:6px; opacity:.7; transition:.15s}
+.card:hover .more{opacity:1; gap:9px}
+.demo-tag{position:absolute; top:13px; right:-31px; transform:rotate(45deg); background:var(--gold2); color:#fff; font-size:9px; letter-spacing:1px; padding:3px 34px; font-weight:600; text-transform:uppercase}
+.empty{grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--muted)}
+.empty h3{font-size:24px; color:var(--navy); margin-bottom:8px}
+
+/* Drawer */
+.scrim{position:fixed; inset:0; background:rgba(23,50,79,.32); opacity:0; pointer-events:none; transition:.25s; z-index:40; backdrop-filter:blur(3px)}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer{position:fixed; top:0; right:0; height:100vh; width:min(576px,100%); background:var(--paper2); border-left:1px solid var(--gold-line); transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); z-index:50; display:flex; flex-direction:column; box-shadow:-40px 0 90px -40px rgba(23,50,79,.4)}
+.drawer.on{transform:none}
+.d-head{padding:28px 32px 22px; border-bottom:1px solid var(--line); position:relative; background:var(--card)}
+.d-close{position:absolute; top:24px; right:26px; width:34px;height:34px;border:1px solid var(--line); border-radius:50%; background:var(--paper2); color:var(--muted); cursor:pointer; font-size:15px; display:grid;place-items:center; transition:.15s}
+.d-close:hover{border-color:var(--gold); color:var(--gold2)}
+.d-kicker{display:flex; align-items:center; gap:9px; font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold); margin-bottom:13px}
+.d-kicker svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4}
+.d-head h2{font-size:26px; color:var(--navy); line-height:1.18; margin-bottom:9px; padding-right:42px}
+.d-provider{font-size:12.5px; color:var(--muted)}
+.d-provider b{color:var(--navy)}
+.d-tagline{font-family:'Lora',serif; font-style:italic; font-size:16px; color:var(--gold2); margin-top:15px; line-height:1.42}
+.d-body{flex:1; overflow-y:auto; padding:24px 32px 32px}
+.d-metrics{display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin-bottom:24px}
+.d-metric{background:var(--card); border:1px solid var(--line); border-radius:7px; padding:15px}
+.d-metric .v{font-family:'Lora',serif; font-size:23px; color:var(--navy); line-height:1; font-weight:600; font-variant-numeric:tabular-nums}
+.d-metric .l{font-size:10.5px; color:var(--muted); margin-top:8px; line-height:1.32}
+.tabs{display:flex; gap:5px; margin-bottom:18px; border-bottom:1px solid var(--line)}
+.tab{padding:12px 15px; font-size:13px; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:.15s; display:flex; align-items:center; gap:7px; white-space:nowrap}
+.tab:hover{color:var(--navy)}
+.tab.on{color:var(--navy); border-bottom-color:var(--gold)}
+.tab .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.65}
+.tab.mgr.on{border-bottom-color:var(--gold2)}
+.tab-note{font-size:11.5px; color:var(--muted2); margin:-8px 0 16px; font-style:italic}
+.panel-txt{font-size:14.5px; line-height:1.68; color:var(--ink)}
+.panel-txt.hidden{display:none}
+.mgr-box{background:rgba(154,123,51,.06); border:1px solid var(--gold-line); border-radius:7px; padding:17px 19px}
+.mgr-box .mgr-tag{font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold2); margin-bottom:11px; font-weight:600; display:flex; align-items:center; gap:7px}
+.info-rows{margin:23px 0 0; border-top:1px solid var(--line); padding-top:19px}
+.info-row{display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid var(--hair); font-size:13.5px}
+.info-row .k{color:var(--muted)}
+.info-row .v{color:var(--navy); text-align:right; font-weight:500}
+.commission-hl{color:var(--gold2)!important; font-family:'Lora',serif; font-size:16px}
+.disclaimer{margin-top:21px; font-size:11.5px; line-height:1.58; color:var(--muted); background:rgba(168,73,63,.05); border:1px solid rgba(168,73,63,.2); border-radius:7px; padding:14px 16px}
+.disclaimer b{color:var(--red)}
+.cta-row{display:flex; gap:12px; margin-top:25px}
+.btn{flex:1; text-align:center; padding:14px; border-radius:6px; font-size:13.5px; font-weight:600; cursor:pointer; transition:.15s; border:1px solid transparent}
+.btn-gold{background:var(--navy); color:var(--paper)}
+.btn-gold:hover{background:var(--navy2)}
+.btn-ghost{background:transparent; border-color:var(--line); color:var(--navy)}
+.btn-ghost:hover{border-color:var(--gold); color:var(--gold2)}
+
+/* Footer */
+.foot{padding:28px 46px 44px; border-top:1px solid var(--line); background:var(--paper2); color:var(--muted2); font-size:11px; line-height:1.62}
+.foot b{color:var(--muted)}
+.foot .brand-f{font-family:'Lora',serif; color:var(--navy); font-size:14px; margin-bottom:9px}
+
+/* Intro */
+.intro{position:fixed; inset:0; background:var(--paper); z-index:80; display:grid; place-items:center; transition:opacity .4s; padding:24px}
+.intro.gone{opacity:0; pointer-events:none}
+.intro-card{max-width:480px; text-align:center; border:1px solid var(--gold-line); border-radius:12px; padding:46px 42px; background:var(--card); box-shadow:var(--shadow)}
+.intro-card .mark{width:56px;height:56px;margin:0 auto 24px; border:1.5px solid var(--gold); border-radius:50%; display:grid;place-items:center; color:var(--gold); font-family:'Lora',serif; font-size:23px; font-weight:700}
+.intro-card h2{font-size:27px; color:var(--navy); margin-bottom:14px}
+.intro-card p{font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:28px}
+.intro-card .q{display:flex; gap:12px}
+
+.mobile-filter-btn{display:none}
+@media(max-width:1040px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed; left:0; top:0; z-index:60; width:308px; transform:translateX(-100%); transition:transform .28s; box-shadow:30px 0 70px -30px rgba(23,50,79,.35)}
+  .sidebar.open{transform:none}
+  .mobile-filter-btn{display:inline-flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--line); color:var(--navy); padding:9px 15px; border-radius:6px; font-size:13px; cursor:pointer}
+  .topbar{padding:24px 24px 18px; flex-wrap:wrap} .topbar h1{font-size:26px}
+  .grid-wrap{padding:22px 24px 54px} .foot{padding:26px 24px 40px}
+}
+@media(max-width:560px){ .grid{grid-template-columns:1fr} .d-metrics{grid-template-columns:1fr 1fr} .topbar h1{font-size:23px} }
+</style>
+</head>
+<body>
+
+<div class="intro" id="intro">
+  <div class="intro-card">
+    <div class="mark">O3</div>
+    <h2>Полка партнёрских продуктов</h2>
+    <p>Материалы предназначены для партнёров и квалифицированных инвесторов. Продукты несут инвестиционные риски. <b style="color:var(--gold2)">Данные приведены для примера (демонстрационный прототип).</b></p>
+    <div class="q">
+      <div class="btn btn-ghost" onclick="document.getElementById('intro').classList.add('gone')">Ознакомиться</div>
+      <div class="btn btn-gold" onclick="document.getElementById('intro').classList.add('gone')">Войти в полку →</div>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">O3</div>
+      <div><div class="n1">O3 FINANCE</div><div class="n2">Архитектура капитала</div></div>
+    </div>
+    <div class="side-title">Полка<br>продуктов</div>
+    <div class="side-sub">Витрина для партнёров и менеджеров</div>
+
+    <div class="f-block">
+      <div class="f-label">Поиск</div>
+      <input class="search" id="search" placeholder="Название, актив, провайдер…">
+    </div>
+    <div class="f-block">
+      <div class="f-label">Направления <span class="reset" id="resetTracks" style="margin:0;font-size:10px">сбросить</span></div>
+      <div class="track-list" id="trackList"></div>
+    </div>
+    <div class="f-block">
+      <div class="f-label">Провайдер</div>
+      <select class="pick" id="providerPick"></select>
+    </div>
+    <div class="f-block">
+      <div class="f-label">Тип продукта</div>
+      <select class="pick" id="typePick"></select>
+    </div>
+    <div class="f-block">
+      <div class="f-label">Уровень риска</div>
+      <div class="chips" id="riskChips"></div>
+    </div>
+    <div class="f-block">
+      <div class="toggle-row" id="protToggle"><span>Только с защитой капитала</span><span class="switch" id="protSwitch"></span></div>
+    </div>
+    <div class="reset" id="resetAll">Сбросить все фильтры</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="kick">O3 Finance · Полка партнёрских продуктов</div>
+        <h1>Не набор продуктов — <em>архитектура</em> решений</h1>
+        <div class="lead">Единый каталог того, что партнёр O3 может предложить клиенту. Откройте любую позицию — увидите идею для клиента, экономику для партнёра и шпаргалку для продажи.</div>
+      </div>
+      <div class="top-right">
+        <button class="mobile-filter-btn" id="mobileFilter">☰ Фильтры</button>
+        <div class="count-pill">Показано <b id="count">0</b> из <span id="total">0</span></div>
+        <div class="mode-toggle" id="mgrToggle"><span class="switch" id="mgrSwitch"></span><span>Режим менеджера <span style="color:var(--muted2)">(шпаргалка продаж)</span></span></div>
+      </div>
+    </div>
+    <div class="grid-wrap"><div class="grid" id="grid"></div></div>
+    <footer class="foot">
+      <div class="brand-f">O3 Finance — Архитектура капитала</div>
+      <div><b>Правовая информация.</b> Демонстрационный прототип полки. Часть карточек заполнена условными данными по образцу и служит наполнением-заглушкой. Цифры доходности приведены как пример / исторический факт и <b>не являются гарантией будущей доходности</b>. Материалы не являются индивидуальной инвестиционной рекомендацией или офертой. Стоимость инвестиционных паёв может как расти, так и падать; результаты в прошлом не определяют доходность в будущем; государство не гарантирует доходность. ИПИФ «О3 — Три Кита» под управлением УК «Рекорд Капитал» (лицензия № 21-000-1-00955). Перед приобретением ознакомьтесь с правилами доверительного управления.</div>
+    </footer>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+<script>
+const TRACKS={
+  flagship:{label:"Флагман",hint:"Независимое консультирование"},
+  protection:{label:"Защита капитала",hint:"Структурные продукты с защитой"},
+  growth:{label:"Доходность и рост",hint:"Варранты, участие в росте, купоны"},
+  preipo:{label:"Pre-IPO и венчур",hint:"Ранний доступ к росту компаний"},
+  funds:{label:"Фонды и управление",hint:"ПИФ, ЗПИФ, доверительное управление"},
+  insurance:{label:"Страхование капитала",hint:"Международные страховые решения"},
+  residency:{label:"Недвижимость и ВНЖ",hint:"Реальные активы и резидентство"},
+  expertise:{label:"Экспертиза",hint:"Публичный голос и авторитет бренда"}
+};
+const TRACK_ORDER=["flagship","protection","growth","preipo","funds","insurance","residency","expertise"];
+const ICONS={
+  flagship:'<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>',
+  protection:'<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
+  growth:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+  preipo:'<path d="M12 2l2.5 6.5H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/>',
+  funds:'<path d="M4 20V8m5 12V4m5 16v-8m5 8V10"/>',
+  insurance:'<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6zM9 12l2 2 4-4"/>',
+  residency:'<path d="M3 10l9-7 9 7v10a1 1 0 01-1 1H4a1 1 0 01-1-1zM9 21v-7h6v7"/>',
+  expertise:'<path d="M12 3a4 4 0 014 4c0 2-1.5 3-2 4.5-.3 1-.2 2.5-.2 2.5h-3.6s.1-1.5-.2-2.5C9.5 10 8 9 8 7a4 4 0 014-4zM9.5 20h5M10 17h4"/>'
+};
+const O3_PRODUCTS=[
+  {id:"o3-flagship",name:"Независимое инвестиционное консультирование",tagline:"Мы не продаём продукты — мы строим финансовую архитектуру",track:"flagship",provider:"O3 Finance",type:"Multi-Family Office",assets:["Мультиброкер","Сбер · ВТБ · БКС · Атон · Альфа · ГПБ"],status:"Флагман",metricYield:"39%*",metricYieldLabel:"средняя доходность портфелей*",metricProtection:"5 уровней",metricProtectionLabel:"защиты капитала",entry:"от 10 000 000 ₽",commission:"Success Fee — по соглашению",risk:"Средний",real:true,
+   idea:"Точка входа — аудит текущего портфеля. Дальше: инвестиционная стратегия и постоянное сопровождение. Активы остаются на счетах клиента у любых брокеров — O3 управляет всем как единой системой. Ключевое отличие от банка-магазина: независимость и отсутствие конфликта интересов.",
+   earn:"Флагман — приоритет №1 партнёрской сети: максимальная маржа. Партнёр получает долю Success Fee (комиссии с прибыли клиента) по индивидуальному соглашению. Экономика раскрывается в закрытом контуре / договоре — как принято у Fidelity и Schwab.",
+   sell:"Для кого: капитал 10–100+ млн ₽, предприниматели и частные инвесторы, у кого активы «размазаны» по нескольким брокерам. Аргументы: независимость, мультиброкерская модель (активы остаются у клиента, никакого lock-in), единая отчётность. Вопрос-крючок: «Кто сейчас смотрит на ваш портфель как на единую систему у всех брокеров?». Следующий шаг — записать на аудит.",
+   disclaimer:"Цифра доходности приведена как исторический факт и не является гарантией будущей доходности. Не является индивидуальной инвестиционной рекомендацией."},
+  {id:"o3-treekita",name:"ИПИФ «О3 — Три Кита»",tagline:"Розничный доступ к экспертизе O3 — от 100 тысяч ₽",track:"funds",provider:"O3 Finance",type:"ПИФ",assets:["Складская недвижимость 20%","ОФЗ 20%","Иностр. акции 15%","Акции РФ 15%","Облигации 14,2%"],status:"Формируется",metricYield:"—",metricYieldLabel:"фонд свежий, формируется",metricProtection:"3,5%",metricProtectionLabel:"комиссия УК от СЧА",entry:"от 100 000 ₽",commission:"по договору",risk:"Средний",real:true,
+   idea:"Интервальный ПИФ рыночных финансовых инструментов под управлением лицензированной УК «Рекорд Капитал». Управляющий фондом — Дмитрий Домбровский. Диверсифицированная структура: недвижимость, ОФЗ, акции РФ и иностранные, облигации, флоатеры. Точка входа в бренд O3 для более мелких клиентов партнёра.",
+   earn:"Розничная позиция полки: подходит клиентам ниже порога флагмана (до 10 млн ₽). Заявки на покупку/погашение — с 15 по 25 число каждого месяца. Вознаграждение партнёра — по договору.",
+   sell:"Для кого: розничный инвестор от 100 тыс ₽, кто хочет войти «мягко». Использовать как первую ступень «лестницы по капиталу»: клиент до 10 млн → ПИФ, от 10 млн → флагман. Обязательно проговаривать риски — не обещать доходность.",
+   disclaimer:"Стоимость пая может как расти, так и падать. Доходность в прошлом не определяет будущую. Государство не гарантирует доходность. Ознакомьтесь с правилами доверительного управления. Правила зарегистрированы ЦБ 12.03.2026 (№7663). УК «Рекорд Капитал», лицензия № 21-000-1-00955."},
+  {id:"o3-expertise",name:"Экспертиза Дмитрия Домбровского",tagline:"Архитектор капитала — публичный голос, который приводит клиентов",track:"expertise",provider:"O3 Finance",type:"Спикерство · PR",assets:["Макроэкономика","Психология богатства","Финансовая механика"],status:"Доступно",metricYield:"23 темы",metricYieldLabel:"в 3 экспертных треках",metricProtection:"1–3 ч",metricProtectionLabel:"ответ для СМИ",entry:"по запросу",commission:"PR-инструмент бренда",risk:"—",real:true,
+   idea:"Не продукт «на продажу», а инструмент доверия. Дмитрий — кандидат физ.-мат. наук, 20 лет на рынках, в реестре инвестсоветников ЦБ. Форматы: экспертный комментарий для СМИ, выступление/интервью (30–90 мин), стратегическая консультация. Авторитет спикера ведёт клиентов во флагман.",
+   earn:"Усиливает конверсию всех остальных позиций полки: партнёру проще «продать имя», когда за ним публикации в Известиях, Газета.ру, VC.ru, подкасты и пресс-конференции. Прямого вознаграждения нет — это верхняя часть воронки.",
+   sell:"Использовать как «социальное доказательство» на первой встрече: показать публикации и темы. Хорошо заходит скептикам («а кто это вообще?»). Предложить клиенту живое выступление или стратегическую сессию как мягкий вход.",
+   disclaimer:""},
+  {id:"gld",name:"Участие GLD",tagline:"Рост золота с полной защитой рублёвого капитала",track:"protection",provider:"Гарда",type:"Участие в росте · Защита капитала",assets:["GLD"],status:"В обращении",metricYield:"до 60%*",metricYieldLabel:"за срок в USD",metricProtection:"100%",metricProtectionLabel:"защита капитала в ₽",entry:"по запросу",commission:"4%",risk:"Низкий",real:false,
+   idea:"Участие в росте золота (ETF GLD) при 100% защите вложенного капитала в рублях. Классический «защитный» продукт для консервативной части портфеля.",
+   earn:"Вознаграждение партнёра — 4% от суммы привлечения.",
+   sell:"Для кого: консервативный клиент, боится просадок, но хочет «поучаствовать». Аргумент: защита капитала 100% — риск ограничен, апсайд по золоту открыт.",
+   disclaimer:"Пример продукта. Доходность не гарантирована."},
+  {id:"magic4",name:"Магическая четвёрка",tagline:"Корзина лидеров РФ с полной защитой",track:"protection",provider:"Гарда",type:"Участие в росте · Защита капитала",assets:["SBER","OZON","YDEX","T_MOEX"],status:"Текущее размещение",metricYield:"до 90%*",metricYieldLabel:"за срок в RUB",metricProtection:"100%",metricProtectionLabel:"защита капитала",entry:"по запросу",commission:"4%",risk:"Средний",real:false,
+   idea:"Участие в росте корзины из четырёх голубых фишек РФ (Сбер, Озон, Яндекс, Т-Банк) с полной защитой капитала. Апсайд до 90% за срок.",
+   earn:"Вознаграждение партнёра — 4% от суммы привлечения.",
+   sell:"Для кого: клиент верит в рынок РФ, но не готов терять. «Ставка на рост без риска потерять тело».",
+   disclaimer:"Пример продукта. Доходность не гарантирована."},
+  {id:"ofz-lesenka",name:"ОФЗ-Гарда Лесенка",tagline:"Барьерный купон на гособлигации — до 46% за срок",track:"protection",provider:"Гарда",type:"Барьерный купон",assets:["ОФЗ 26248"],status:"В обращении",metricYield:"до 46%*",metricYieldLabel:"за срок в RUB",metricProtection:"Барьер",metricProtectionLabel:"купонная защита",entry:"по запросу",commission:"10%",risk:"Низкий",real:false,
+   idea:"Барьерный купон на ОФЗ с «лесенкой» — повышенный доход на гособлигационном базовом активе.",
+   earn:"Вознаграждение партнёра — 10% от суммы привлечения (одно из самых высоких в защитной линейке).",
+   sell:"Для кого: клиент хочет «больше депозита», но на понятном активе (ОФЗ). Аргумент: доход выше вклада на госбумаге.",
+   disclaimer:"Пример продукта. Доходность не гарантирована."},
+  {id:"phoenix-era",name:"Феникс — Новая эра",tagline:"Условный купон 20% годовых на корзину AI-лидеров",track:"growth",provider:"Гарда",type:"Феникс",assets:["ARM","AMD","PLTR","Airbnb","Arista"],status:"Текущее размещение",metricYield:"20%*",metricYieldLabel:"условный годовой купон",metricProtection:"Автоколл",metricProtectionLabel:"с барьером",entry:"по запросу",commission:"15%",risk:"Средний",real:false,
+   idea:"Автоколл-нота «Феникс» на корзину технологических лидеров: условный купон 20% годовых с эффектом памяти.",
+   earn:"Вознаграждение партнёра — 15% от суммы привлечения.",
+   sell:"Для кого: клиент хочет высокий регулярный доход и верит, что бумаги не рухнут ниже барьера. Проговорить барьерный риск.",
+   disclaimer:"Пример продукта. Высокий потенциальный доход сопряжён с риском. Доходность не гарантирована."},
+  {id:"china-warrant",name:"Китайский взлёт",tagline:"Варрант-колл на юань — неограниченный апсайд",track:"growth",provider:"Гарда",type:"Варрант-колл",assets:["CNY/RUB"],status:"Текущее размещение",metricYield:"∞*",metricYieldLabel:"неограниченная",metricProtection:"Плечо",metricProtectionLabel:"встроенное",entry:"по запросу",commission:"30%",risk:"Высокий",real:false,
+   idea:"Варрант-колл на курс юань/рубль со встроенным плечом — агрессивная ставка на укрепление юаня с ограниченным риском (премией).",
+   earn:"Вознаграждение партнёра — 30% от суммы привлечения (максимум в линейке).",
+   sell:"Для кого: опытный, квалифицированный инвестор, готовый к полной потере премии ради неограниченного апсайда. Только для тех, кто понимает варранты.",
+   disclaimer:"Пример продукта. Высокий риск — возможна полная потеря премии. Только для квалифицированных инвесторов."},
+  {id:"preipo-plata",name:"Pre-IPO Plata",tagline:"Ранний вход в финтех до размещения",track:"preipo",provider:"Гарда",type:"Pre-IPO",assets:["Plata"],status:"Текущее размещение",metricYield:"IPO-апсайд*",metricYieldLabel:"при выходе на биржу",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"по запросу",commission:"по договору",risk:"Высокий",real:false,
+   idea:"Доступ к акциям финтех-компании Plata до IPO — по цене раннего раунда.",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: клиент, готовый «заморозить» деньги на годы ради иксов. Проговорить неликвидность и риск.",
+   disclaimer:"Пример продукта. Pre-IPO — высокий риск и низкая ликвидность."},
+  {id:"preipo-prometheus",name:"Pre-IPO Prometheus",tagline:"Паи фонда ранних технологических историй",track:"preipo",provider:"AGS",type:"Pre-IPO · Паи",assets:["Prometheus"],status:"Активная",metricYield:"IPO-апсайд*",metricYieldLabel:"при выходе",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"по запросу",commission:"по договору",risk:"Высокий",real:false,
+   idea:"Участие в Pre-IPO Prometheus через паевую структуру — диверсифицированный вход в ранние сделки.",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: клиент хочет венчурный апсайд, но через управляемый фонд, а не одну компанию.",
+   disclaimer:"Пример продукта. Высокий риск и низкая ликвидность."},
+  {id:"ruspace",name:"RuSpace",tagline:"ЗПИФ на создание спутника — реальный космос в портфеле",track:"preipo",provider:"Альфа Капитал",type:"ЗПИФ · Венчур",assets:["Создание спутника"],status:"К рассмотрению",metricYield:"венчур*",metricYieldLabel:"долгосрочный горизонт",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"по запросу",commission:"по договору",risk:"Высокий",real:false,
+   idea:"Закрытый ПИФ, финансирующий создание спутника — нишевый венчурный проект с историей «про технологии и будущее».",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: клиент, которому важна «история» и статус (космос, технологии). Эмоциональная продажа + диверсификация.",
+   disclaimer:"Пример продукта. Венчурный риск, длинный горизонт, низкая ликвидность."},
+  {id:"tetis-cyber",name:"Тетис — Cyberstage",tagline:"Венчурный фонд в кибербезопасности",track:"preipo",provider:"Тетис капитал",type:"Венчурный фонд",assets:["Кибербезопасность"],status:"Активная",metricYield:"венчур*",metricYieldLabel:"долгосрочный горизонт",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"по запросу",commission:"по договору",risk:"Высокий",real:false,
+   idea:"Венчурный фонд, инвестирующий в компании кибербезопасности — растущий защищённый сектор.",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: квалифицированный клиент с аппетитом к венчуру и верой в рост киберотрасли.",
+   disclaimer:"Пример продукта. Венчурный риск, длинный горизонт."},
+  {id:"zpif-max",name:"ЗПИФ «Максимальный»",tagline:"Доход на рынке кредитования",track:"funds",provider:"Солид",type:"ЗПИФ",assets:["Рынок кредитования"],status:"Активная",metricYield:"—",metricYieldLabel:"распределение дохода",metricProtection:"ЗПИФ",metricProtectionLabel:"закрытая структура",entry:"по запросу",commission:"до 2%",risk:"Средний",real:false,
+   idea:"Закрытый ПИФ, зарабатывающий на рынке кредитования — альтернативный источник дохода вне биржи.",
+   earn:"Вознаграждение партнёра — до 2% от суммы привлечения.",
+   sell:"Для кого: клиент, который ищет доход «не от акций». Диверсификация источника дохода.",
+   disclaimer:"Пример продукта. Стоимость пая может меняться."},
+  {id:"du-portfolio",name:"ДУ «Среднесрочный портфель»",tagline:"Готовая стратегия под управлением команды",track:"funds",provider:"Солид",type:"Доверительное управление",assets:["Диверсифицированный портфель"],status:"Активная",metricYield:"стратегия*",metricYieldLabel:"среднесрочный горизонт",metricProtection:"ДУ",metricProtectionLabel:"профессиональное управление",entry:"по запросу",commission:"по договору",risk:"Средний",real:false,
+   idea:"Готовая стратегия доверительного управления среднесрочным портфелем — «делегируй профессионалам».",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: клиент, который не хочет принимать решения сам. Аргумент: «вы делегируете, команда управляет».",
+   disclaimer:"Пример продукта. Доходность не гарантирована."},
+  {id:"ultima",name:"Платформа The Ultima World",tagline:"Технологическая инфраструктура для капитала",track:"funds",provider:"The Ultima World",type:"Инвестплатформа",assets:["Управление активами"],status:"Активная",metricYield:"сервис",metricYieldLabel:"инфраструктура",metricProtection:"Платформа",metricProtectionLabel:"единый контур",entry:"по запросу",commission:"по договору",risk:"Средний",real:false,
+   idea:"Платформа для управления активами: единый технологический контур для отчётности и операций — аналог того, что премиальные дома дают внешним управляющим.",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: клиент/партнёр, которому нужна инфраструктура и прозрачная отчётность по всему капиталу.",
+   disclaimer:"Пример продукта / сервиса."},
+  {id:"ulip-ppli",name:"Страховые решения ULIP и PPLI",tagline:"Страховая оболочка для капитала и наследования",track:"insurance",provider:"AVC Advisory",type:"Страхование (ULIP/PPLI)",assets:["ULIP","PPLI"],status:"Активная",metricYield:"структура",metricYieldLabel:"налоги и наследование",metricProtection:"Оболочка",metricProtectionLabel:"юрисдикционная защита",entry:"по запросу",commission:"по договору",risk:"Низкий",real:false,
+   idea:"Международные страховые решения (ULIP — unit-linked, PPLI — private placement life insurance): «оболочка» для структурирования капитала, налогового планирования и передачи наследникам.",
+   earn:"Вознаграждение партнёра — по договору.",
+   sell:"Для кого: состоятельный клиент с задачей структурирования и наследования, часто с международными активами. Премиальный инструмент планирования.",
+   disclaimer:"Пример продукта. Требует индивидуальной юридической проработки."},
+  {id:"realty",name:"Инвестиционная недвижимость",tagline:"Складская и коммерческая недвижимость РФ",track:"residency",provider:"Партнёрская сеть O3",type:"Недвижимость",assets:["Склады","Коммерция"],status:"Направление в проработке",metricYield:"рента*",metricYieldLabel:"доход + переоценка",metricProtection:"Реальный актив",metricProtectionLabel:"материальное обеспечение",entry:"пример",commission:"3–5% (пример)",risk:"Средний",real:false,example:true,
+   idea:"ПРИМЕР позиции на вырост. Прямой доступ к складской и коммерческой недвижимости — рентный доход и защита от инфляции реальным активом.",
+   earn:"Вознаграждение партнёра — 3–5% (пример). Реальные условия появятся при запуске направления.",
+   sell:"Для кого: клиент, которому важен «осязаемый» актив, а не цифры на экране. Классика для консервативной части капитала.",
+   disclaimer:"Демонстрационная карточка — направление в проработке. Цифры условны."},
+  {id:"residency",name:"ВНЖ и второе резидентство",tagline:"Мобильность капитала и семьи",track:"residency",provider:"Партнёрская сеть O3",type:"Резидентство",assets:["ВНЖ","Гражданство за инвестиции"],status:"Направление в проработке",metricYield:"статус",metricYieldLabel:"мобильность",metricProtection:"План Б",metricProtectionLabel:"юрисдикционная гибкость",entry:"пример",commission:"пример",risk:"Низкий",real:false,example:true,
+   idea:"ПРИМЕР позиции на вырост. Оформление ВНЖ и второго резидентства/гражданства за инвестиции — «план Б» для семьи и капитала, свобода передвижения.",
+   earn:"Условия партнёрского вознаграждения появятся при запуске направления.",
+   sell:"Для кого: состоятельная семья, думающая о мобильности, образовании детей за рубежом, диверсификации юрисдикций. Сильный кросс-продукт к флагману.",
+   disclaimer:"Демонстрационная карточка — направление в проработке. Цифры условны."}
+];
+
+const P=O3_PRODUCTS;
+const state={search:"",tracks:new Set(),provider:"",type:"",risk:"",protOnly:false,manager:false};
+const $=s=>document.querySelector(s);
+const grid=$("#grid");
+
+function trackCounts(){const c={};P.forEach(p=>c[p.track]=(c[p.track]||0)+1);return c;}
+function buildTracks(){
+  const c=trackCounts(); const el=$("#trackList"); el.innerHTML="";
+  TRACK_ORDER.forEach(k=>{ if(!TRACKS[k])return;
+    const d=document.createElement("div"); d.className="track-item"; d.dataset.k=k;
+    d.innerHTML='<svg viewBox="0 0 24 24">'+(ICONS[k]||"")+'</svg><span>'+TRACKS[k].label+'</span><span class="cnt">'+(c[k]||0)+'</span>';
+    d.onclick=()=>{state.tracks.has(k)?state.tracks.delete(k):state.tracks.add(k);d.classList.toggle("on");render();};
+    el.appendChild(d);
+  });
+}
+function buildProviders(){const set=[...new Set(P.map(p=>p.provider))].sort();const el=$("#providerPick");el.innerHTML='<option value="">Все провайдеры</option>'+set.map(s=>'<option>'+s+'</option>').join("");el.onchange=()=>{state.provider=el.value;render();};}
+function buildTypes(){const set=[...new Set(P.map(p=>p.type))].sort();const el=$("#typePick");el.innerHTML='<option value="">Все типы</option>'+set.map(s=>'<option>'+s+'</option>').join("");el.onchange=()=>{state.type=el.value;render();};}
+function buildRisk(){const el=$("#riskChips");const risks=["Низкий","Средний","Высокий"];el.innerHTML=risks.map(r=>'<div class="chip" data-r="'+r+'">'+r+'</div>').join("");
+  el.querySelectorAll(".chip").forEach(ch=>ch.onclick=()=>{const r=ch.dataset.r;if(state.risk===r){state.risk="";ch.classList.remove("on");}else{el.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));state.risk=r;ch.classList.add("on");}render();});}
+
+function match(p){
+  if(state.tracks.size && !state.tracks.has(p.track))return false;
+  if(state.provider && p.provider!==state.provider)return false;
+  if(state.type && p.type!==state.type)return false;
+  if(state.risk && p.risk!==state.risk)return false;
+  if(state.protOnly && !(p.metricProtection && /100|защит|барьер|оболоч|актив|реальн/i.test(p.metricProtection+p.metricProtectionLabel)))return false;
+  if(state.search){const q=state.search.toLowerCase();const hay=(p.name+p.tagline+p.provider+p.type+(p.assets||[]).join(" ")+TRACKS[p.track].label).toLowerCase();if(!hay.includes(q))return false;}
+  return true;
+}
+function hotStatus(s){return /текущее|обращени|доступ|актив/i.test(s);}
+function render(){
+  const list=P.filter(match);
+  $("#count").textContent=list.length; $("#total").textContent=P.length;
+  if(!list.length){grid.innerHTML='<div class="empty"><h3>Ничего не найдено</h3><p>Измените фильтры или сбросьте их.</p></div>';return;}
+  grid.innerHTML=list.map(cardHTML).join("");
+  grid.querySelectorAll(".card").forEach(c=>c.onclick=()=>openDrawer(c.dataset.id));
+}
+function cardHTML(p){
+  const t=TRACKS[p.track]; const metric2=p.metricProtection&&p.metricProtection!=="—";
+  return '<div class="card '+(p.real?'is-real':'')+'" data-id="'+p.id+'">'+
+    (p.example?'<div class="demo-tag">пример</div>':'')+
+    '<div class="card-top"><span class="tchip"><svg viewBox="0 0 24 24">'+(ICONS[p.track]||"")+'</svg>'+t.label+'</span><span class="status '+(hotStatus(p.status)?'hot':'')+'">'+p.status+'</span></div>'+
+    '<div class="provider">'+p.provider+'</div><h3>'+p.name+'</h3><div class="tagline">'+p.tagline+'</div>'+
+    (p.assets&&p.assets.length?'<div class="assets">'+p.assets.slice(0,3).map(a=>'<span class="asset">'+a+'</span>').join("")+(p.assets.length>3?'<span class="asset">+'+(p.assets.length-3)+'</span>':'')+'</div>':'')+
+    '<div class="metrics"><div class="metric"><div class="mv">'+p.metricYield+'</div><div class="ml">'+p.metricYieldLabel+'</div></div>'+
+      (metric2?'<div class="metric"><div class="mv">'+p.metricProtection+'</div><div class="ml">'+p.metricProtectionLabel+'</div></div>':'')+'</div>'+
+    '<div class="card-foot"><div class="commission">'+(/%/.test(p.commission)?'Партнёру <b>'+p.commission+'</b>':'<span class="entry-mini">'+p.entry+'</span>')+'</div><div class="more">Подробнее →</div></div>'+
+  '</div>';
+}
+
+let activeTab="idea";
+function openDrawer(id){
+  const p=P.find(x=>x.id===id); if(!p)return; activeTab="idea";
+  const t=TRACKS[p.track]; const dr=$("#drawer"); const metric2=p.metricProtection&&p.metricProtection!=="—";
+  dr.innerHTML=
+    '<div class="d-head"><button class="d-close" onclick="closeDrawer()">✕</button>'+
+      '<div class="d-kicker"><svg viewBox="0 0 24 24">'+(ICONS[p.track]||"")+'</svg>'+t.label+' · '+p.type+'</div>'+
+      '<h2>'+p.name+'</h2><div class="d-provider">Провайдер: <b>'+p.provider+'</b> · '+p.status+'</div>'+
+      '<div class="d-tagline">«'+p.tagline+'»</div></div>'+
+    '<div class="d-body">'+
+      '<div class="d-metrics">'+
+        '<div class="d-metric"><div class="v">'+p.metricYield+'</div><div class="l">'+p.metricYieldLabel+'</div></div>'+
+        '<div class="d-metric"><div class="v">'+(metric2?p.metricProtection:p.entry)+'</div><div class="l">'+(metric2?p.metricProtectionLabel:'порог входа')+'</div></div>'+
+        '<div class="d-metric"><div class="v" style="font-size:'+(/%/.test(p.commission)?'23px':'15px')+'">'+p.commission+'</div><div class="l">вознаграждение партнёра</div></div>'+
+      '</div>'+
+      '<div class="tabs">'+
+        '<div class="tab on" data-t="idea"><span class="dot"></span>Рыночная идея</div>'+
+        '<div class="tab" data-t="earn"><span class="dot"></span>Как заработать</div>'+
+        '<div class="tab mgr" data-t="sell" '+(state.manager?'':'style="display:none"')+'><span class="dot"></span>Как продавать</div>'+
+      '</div>'+
+      (state.manager?'':'<div class="tab-note">Вкладка «Как продавать» (шпаргалка менеджера) скрыта — включите «Режим менеджера» вверху.</div>')+
+      '<div class="panel-txt" data-p="idea">'+p.idea+'</div>'+
+      '<div class="panel-txt hidden" data-p="earn">'+p.earn+'</div>'+
+      '<div class="panel-txt hidden" data-p="sell"><div class="mgr-box"><div class="mgr-tag">Только для менеджера · шпаргалка продаж</div>'+p.sell+'</div></div>'+
+      '<div class="info-rows">'+
+        '<div class="info-row"><span class="k">Порог входа</span><span class="v">'+p.entry+'</span></div>'+
+        '<div class="info-row"><span class="k">Тип продукта</span><span class="v">'+p.type+'</span></div>'+
+        '<div class="info-row"><span class="k">Уровень риска</span><span class="v">'+p.risk+'</span></div>'+
+        (p.assets&&p.assets.length?'<div class="info-row"><span class="k">Базовые активы</span><span class="v">'+p.assets.join(", ")+'</span></div>':'')+
+        '<div class="info-row"><span class="k">Вознаграждение партнёра</span><span class="v commission-hl">'+p.commission+'</span></div>'+
+      '</div>'+
+      (p.disclaimer?'<div class="disclaimer"><b>⚠ Риски.</b> '+p.disclaimer+'</div>':'')+
+      '<div class="cta-row"><div class="btn btn-gold">'+(p.track==='flagship'?'Записать на аудит':p.track==='expertise'?'Пригласить спикером':'Оставить заявку')+'</div><div class="btn btn-ghost">Скачать one-pager</div></div>'+
+    '</div>';
+  dr.querySelectorAll(".tab").forEach(tb=>tb.onclick=()=>{activeTab=tb.dataset.t;dr.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));tb.classList.add("on");dr.querySelectorAll(".panel-txt").forEach(x=>x.classList.toggle("hidden",x.dataset.p!==activeTab));});
+  dr.classList.add("on"); $("#scrim").classList.add("on"); dr.setAttribute("aria-hidden","false");
+}
+function closeDrawer(){$("#drawer").classList.remove("on");$("#scrim").classList.remove("on");$("#drawer").setAttribute("aria-hidden","true");}
+$("#scrim").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
+
+$("#search").oninput=e=>{state.search=e.target.value;render();};
+$("#protToggle").onclick=()=>{state.protOnly=!state.protOnly;$("#protSwitch").classList.toggle("on");render();};
+$("#mgrToggle").onclick=()=>{state.manager=!state.manager;$("#mgrSwitch").classList.toggle("on");const open=document.querySelector(".drawer.on");if(open){const cur=P.find(x=>x.name===open.querySelector("h2").textContent);if(cur)openDrawer(cur.id);}};
+$("#resetTracks").onclick=e=>{e.stopPropagation();state.tracks.clear();document.querySelectorAll(".track-item").forEach(x=>x.classList.remove("on"));render();};
+$("#resetAll").onclick=()=>{state.search="";state.tracks.clear();state.provider="";state.type="";state.risk="";state.protOnly=false;$("#search").value="";$("#providerPick").value="";$("#typePick").value="";document.querySelectorAll(".track-item,.chip").forEach(x=>x.classList.remove("on"));$("#protSwitch").classList.remove("on");render();};
+$("#mobileFilter").onclick=()=>$("#sidebar").classList.toggle("open");
+
+buildTracks();buildProviders();buildTypes();buildRisk();render();
+</script>
+</body>
+</html>
