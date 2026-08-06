@@ -88,6 +88,8 @@ select.pick:focus{border-color:var(--gold-line)}
 .tchip svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5}
 .status{font-size:10px; letter-spacing:.4px; color:var(--muted); padding:3px 9px; border:1px solid var(--line); border-radius:20px; white-space:nowrap}
 .status.hot{color:var(--navy); border-color:var(--gold-line); background:rgba(154,123,51,.06)}
+.ct-right{display:flex; align-items:center; gap:7px}
+.pdf-chip{font-size:9px; letter-spacing:.5px; color:var(--gold2); border:1px solid var(--gold-line); border-radius:4px; padding:2px 6px; background:rgba(154,123,51,.07); font-weight:600}
 .provider{font-size:11px; color:var(--muted); margin-bottom:6px; letter-spacing:.3px}
 .card h3{font-size:20px; color:var(--navy); line-height:1.22; margin-bottom:8px}
 .tagline{font-size:13px; color:var(--muted); line-height:1.45; margin-bottom:15px; flex:1}
@@ -305,7 +307,7 @@ const O3_PRODUCTS=[
    earn:"Фабрика «Гарда Капитал». Вознаграждение партнёра — от 3%. Клиент покупает как обычную облигацию через своего брокера в любой рабочий день.",
    sell:"Для кого: клиент хочет «больше депозита», но на понятном и надёжном активе. Аргумент: «в основе — ОФЗ, а доход выше вклада». Порог от 1 млн ₽, нужен квал.",
    disclaimer:"Только для квалифицированных инвесторов. Доход зависит от динамики ОФЗ 26248 и не гарантирован. Не является ИИР."},
-  {id:"aton-ofz-400",name:"Участие в росте ОФЗ — тройной горизонт",tagline:"100% защита капитала и участие ×4 в росте ОФЗ",track:"protection",provider:"АТОН",type:"Структурная облигация · защита капитала",assets:["ОФЗ 26249"],status:"Оценка 13.08.2026",metricYield:"КУ 400%*",metricYieldLabel:"коэф. участия в росте ОФЗ*",metricProtection:"100%",metricProtectionLabel:"защита капитала",entry:"для квал. инвесторов",commission:"от 3%",risk:"Средний",real:false,
+  {id:"aton-ofz-400",name:"Участие в росте ОФЗ — тройной горизонт",tagline:"100% защита капитала и участие ×4 в росте ОФЗ",track:"protection",provider:"АТОН",type:"Структурная облигация · защита капитала",assets:["ОФЗ 26249"],status:"Оценка 13.08.2026",metricYield:"КУ 400%*",metricYieldLabel:"коэф. участия в росте ОФЗ*",metricProtection:"100%",metricProtectionLabel:"защита капитала",entry:"для квал. инвесторов",commission:"от 3%",risk:"Средний",real:false,pdf:"pdf/aton-ofz-uchastie-460.pdf",
    idea:"Структурная облигация АТОН на ОФЗ 26249 со 100% защитой капитала и коэффициентом участия 400% в росте гособлигации. Срок 3 года, дата оценки начальных значений 13.08.2026. ISIN RU000A10EWW8.",
    earn:"Продукт платформы АТОН (СФО «АТОН Структурные Решения»). Вознаграждение партнёра — от 3%. Паспорт выпуска — на aton-sfo.ru.",
    sell:"Для кого: квал с агрессивным риск-профилем, который верит в снижение ставок и рост ОФЗ. Аргумент: «капитал защищён на 100%, а в рост берём с четырёхкратным плечом».",
@@ -335,7 +337,7 @@ const O3_PRODUCTS=[
    earn:"Фабрика «Гарда Капитал», подборка «ИИ». Вознаграждение партнёра — от 3%. Базовые активы — акции США, оформление ПФИ в USD.",
    sell:"Для кого: квал, верящий в тему искусственного интеллекта и «гиперскейлеров». Аргумент: «20% в долларах на корзину ИИ-лидеров, с барьером защиты купона». Проговорить барьерный риск.",
    disclaimer:"Только для квалифицированных инвесторов. Купон условный; при пробитии барьера 65% возможны потери. Не является ИИР."},
-  {id:"crypto-phoenix",name:"Крипто Феникс",tagline:"18% годовых с памятью на биткоин и эфир, подушка −30%",track:"growth",provider:"Гарда Капитал",type:"Структурный продукт · крипто",assets:["IBIT (BTC)","ETHA (ETH)"],status:"Актуальная подборка",metricYield:"18%*",metricYieldLabel:"купон с памятью, годовых*",metricProtection:"Барьер 70%",metricProtectionLabel:"защита от снижения до −30%",entry:"от 1 000 000 ₽",commission:"от 3%",risk:"Высокий",real:false,
+  {id:"crypto-phoenix",name:"Крипто Феникс",tagline:"18% годовых с памятью на биткоин и эфир, подушка −30%",track:"growth",provider:"Гарда Капитал",type:"Структурный продукт · крипто",assets:["IBIT (BTC)","ETHA (ETH)"],status:"Актуальная подборка",metricYield:"18%*",metricYieldLabel:"купон с памятью, годовых*",metricProtection:"Барьер 70%",metricProtectionLabel:"защита от снижения до −30%",entry:"от 1 000 000 ₽",commission:"от 3%",risk:"Высокий",real:false,pdf:"pdf/garda-crypto-ideas-2026-06.pdf",
    idea:"Структурный продукт на биткоин и эфир (через ETF IBIT/ETHA): купон 18% годовых с памятью, защита от снижения до −30% (барьер 70%), срок 12 месяцев, автоотзыв от 100%.",
    earn:"Фабрика «Гарда Капитал», крипто-подборка. Вознаграждение партнёра — от 3%. Оформление ПФИ в USD, только квал.",
    sell:"Для кого: квал с аппетитом к крипте, но желающий защиты и дохода вместо «просто купить биткоин». Аргумент: «18% с памятью и подушкой −30%». Проговорить крипто-волатильность.",
@@ -418,7 +420,7 @@ function cardHTML(p){
   const t=TRACKS[p.track]; const metric2=p.metricProtection&&p.metricProtection!=="—";
   return '<div class="card '+(p.real?'is-real':'')+'" data-id="'+p.id+'">'+
     (p.example?'<div class="demo-tag">пример</div>':'')+
-    '<div class="card-top"><span class="tchip"><svg viewBox="0 0 24 24">'+(ICONS[p.track]||"")+'</svg>'+t.label+'</span><span class="status '+(hotStatus(p.status)?'hot':'')+'">'+p.status+'</span></div>'+
+    '<div class="card-top"><span class="tchip"><svg viewBox="0 0 24 24">'+(ICONS[p.track]||"")+'</svg>'+t.label+'</span><span class="ct-right">'+(p.pdf?'<span class="pdf-chip">PDF</span>':'')+'<span class="status '+(hotStatus(p.status)?'hot':'')+'">'+p.status+'</span></span></div>'+
     '<div class="provider">'+p.provider+'</div><h3>'+p.name+'</h3><div class="tagline">'+p.tagline+'</div>'+
     (p.assets&&p.assets.length?'<div class="assets">'+p.assets.slice(0,3).map(a=>'<span class="asset">'+a+'</span>').join("")+(p.assets.length>3?'<span class="asset">+'+(p.assets.length-3)+'</span>':'')+'</div>':'')+
     '<div class="metrics"><div class="metric"><div class="mv">'+p.metricYield+'</div><div class="ml">'+p.metricYieldLabel+'</div></div>'+
@@ -459,7 +461,7 @@ function openDrawer(id){
         '<div class="info-row"><span class="k">Вознаграждение партнёра</span><span class="v commission-hl">'+p.commission+'</span></div>'+
       '</div>'+
       (p.disclaimer?'<div class="disclaimer"><b>⚠ Риски.</b> '+p.disclaimer+'</div>':'')+
-      '<div class="cta-row"><div class="btn btn-gold">'+(p.track==='flagship'?'Записать на аудит':p.track==='expertise'?'Пригласить спикером':'Оставить заявку')+'</div><div class="btn btn-ghost">Скачать one-pager</div></div>'+
+      '<div class="cta-row"><div class="btn btn-gold">'+(p.track==='flagship'?'Записать на аудит':p.track==='expertise'?'Пригласить спикером':'Оставить заявку')+'</div>'+(p.pdf?'<a class="btn btn-ghost" href="'+p.pdf+'" target="_blank" rel="noopener">Презентация PDF ↗</a>':'')+'</div>'+
     '</div>';
   dr.querySelectorAll(".tab").forEach(tb=>tb.onclick=()=>{activeTab=tb.dataset.t;dr.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));tb.classList.add("on");dr.querySelectorAll(".panel-txt").forEach(x=>x.classList.toggle("hidden",x.dataset.p!==activeTab));});
   dr.classList.add("on"); $("#scrim").classList.add("on"); dr.setAttribute("aria-hidden","false");
