@@ -171,8 +171,8 @@ select.pick:focus{border-color:var(--gold-line)}
 .side-scrim{position:fixed; inset:0; background:rgba(23,50,79,.34); opacity:0; pointer-events:none; transition:opacity .25s; z-index:55; backdrop-filter:blur(3px); display:none}
 .side-scrim.on{opacity:1; pointer-events:auto}
 .collapse-btn{display:none}
-.expand-btn{display:none; position:fixed; left:0; top:50%; transform:translateY(-50%); z-index:25; align-items:center; gap:8px; background:var(--navy); color:var(--paper); border:none; padding:12px 16px 12px 13px; border-radius:0 10px 10px 0; font-size:13px; cursor:pointer; box-shadow:8px 10px 30px -14px rgba(23,50,79,.5); font-family:inherit; font-weight:500}
-.expand-btn:hover{background:var(--navy2)}
+.expand-btn{display:none; align-items:center; gap:8px; background:rgba(154,123,51,.07); border:1px solid var(--gold-line); color:var(--navy); padding:9px 15px; border-radius:6px; font-size:13px; cursor:pointer; font-family:inherit; font-weight:500; white-space:nowrap}
+.expand-btn:hover{color:var(--gold2); border-color:var(--gold)}
 @media(min-width:1041px){
   .collapse-btn{display:grid; place-items:center; position:absolute; top:16px; right:16px; width:32px; height:32px; border:1px solid var(--line); border-radius:50%; background:var(--paper2); color:var(--muted); cursor:pointer; font-size:16px; line-height:1; z-index:3}
   .collapse-btn:hover{border-color:var(--gold); color:var(--gold2)}
@@ -246,7 +246,6 @@ select.pick:focus{border-color:var(--gold-line)}
   </aside>
 
   <div class="main">
-    <button class="expand-btn" id="expandBtn" title="Показать фильтры" aria-label="Показать фильтры">☰ Фильтры</button>
     <div class="topbar">
       <div>
         <div class="kick">O3 Finance · Полка партнёрских продуктов</div>
@@ -254,6 +253,7 @@ select.pick:focus{border-color:var(--gold-line)}
         <div class="lead">Единый каталог того, что партнёр O3 может предложить клиенту. Откройте любую позицию — увидите идею для клиента, экономику для партнёра и шпаргалку для продажи.</div>
       </div>
       <div class="top-right">
+        <button class="expand-btn" id="expandBtn" title="Показать фильтры" aria-label="Показать фильтры">☰ Фильтры</button>
         <button class="mobile-filter-btn" id="mobileFilter">☰ Фильтры</button>
         <div class="count-pill">Показано <b id="count">0</b> из <span id="total">0</span></div>
         <div class="mode-toggle" id="mgrToggle"><span class="switch" id="mgrSwitch"></span><span>Режим менеджера <span style="color:var(--muted2)">(шпаргалка продаж)</span></span></div>
