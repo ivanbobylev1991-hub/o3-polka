@@ -231,17 +231,6 @@ select.pick:focus{border-color:var(--gold-line)}
       <div class="f-label">Провайдер</div>
       <select class="pick" id="providerPick"></select>
     </div>
-    <div class="f-block">
-      <div class="f-label">Тип продукта</div>
-      <select class="pick" id="typePick"></select>
-    </div>
-    <div class="f-block">
-      <div class="f-label">Уровень риска</div>
-      <div class="chips" id="riskChips"></div>
-    </div>
-    <div class="f-block">
-      <div class="toggle-row" id="protToggle"><span>Только с защитой капитала</span><span class="switch" id="protSwitch"></span></div>
-    </div>
     <div class="reset" id="resetAll">Сбросить все фильтры</div>
   </aside>
 
@@ -276,7 +265,7 @@ const TRACKS={
   flagship:{label:"Флагман",hint:"Независимое консультирование"},
   structured:{label:"Структурные продукты",hint:"Защита капитала, участие в росте, купонные ноты, варранты"},
   preipo:{label:"Pre-IPO и венчур",hint:"Ранний доступ к росту компаний"},
-  funds:{label:"Фонды и управление",hint:"ПИФ и валютный ПИФ"},
+  funds:{label:"Фонды и управление",hint:"Паевые фонды под управлением O3"},
   residency:{label:"Недвижимость и ВНЖ",hint:"Реальные активы и резидентство"},
   legacy:{label:"Личные фонды",hint:"Наследование и защита капитала"},
   expertise:{label:"Экспертиза",hint:"Публичный голос и авторитет бренда"}
@@ -302,16 +291,6 @@ const O3_PRODUCTS=[
    earn:"Розничная позиция полки: подходит клиентам ниже порога флагмана (до 10 млн ₽). Заявки на покупку/погашение — с 15 по 25 число каждого месяца. Вознаграждение партнёра — по договору.",
    sell:"Для кого: розничный инвестор от 100 тыс ₽, кто хочет войти «мягко». Использовать как первую ступень «лестницы по капиталу»: клиент до 10 млн → ПИФ, от 10 млн → флагман. Обязательно проговаривать риски — не обещать доходность.",
    disclaimer:"Стоимость пая может как расти, так и падать. Доходность в прошлом не определяет будущую. Государство не гарантирует доходность. Ознакомьтесь с правилами доверительного управления. Правила зарегистрированы ЦБ 12.03.2026 (№7663). УК «Рекорд Капитал», лицензия № 21-000-1-00955."},
-  {id:"o3-alfa-valuta",name:"Валютный ПИФ",tagline:"Валютные облигации с дешёвым плечом — просто и ликвидно",track:"funds",provider:"Альфа Капитал",type:"Открытый ПИФ",assets:["Валютные облигации","Встроенное плечо"],status:"Доступно",metricYield:"валютная*",metricYieldLabel:"доходность в валюте*",metricProtection:"ПИФ",metricProtectionLabel:"профессиональное управление",entry:"от цены пая",commission:"по договору",risk:"Средний",real:false,
-   idea:"Открытый ПИФ валютных облигаций от УК «Альфа Капитал» со встроенным дешёвым плечом. Простой валютный инструмент для консервативно-валютной части портфеля, торгуется как обычный ПИФ.",
-   earn:"УК «Альфа Капитал» — прямое партнёрство O3. Один из самых «легко продаваемых» продуктов полки. Вознаграждение партнёра — по соглашению.",
-   sell:"Для кого: клиент хочет валютную доходность без структурных сложностей. Аргумент: «профессиональное управление валютными облигациями, ликвидный ПИФ, вход по цене пая».",
-   disclaimer:"Стоимость пая может как расти, так и падать. Доходность в прошлом не определяет будущую. Ознакомьтесь с правилами доверительного управления. Не является ИИР."},
-  {id:"aton-ofz-400",name:"Участие в росте ОФЗ — тройной горизонт",tagline:"100% защита капитала и участие ×4 в росте ОФЗ",track:"structured",provider:"АТОН",type:"Структурная облигация · защита капитала",assets:["ОФЗ 26249"],status:"Оценка 13.08.2026",metricYield:"КУ 400%*",metricYieldLabel:"коэф. участия в росте ОФЗ*",metricProtection:"100%",metricProtectionLabel:"защита капитала",entry:"для квал. инвесторов",commission:"от 3%",risk:"Средний",real:false,pdf:"pdf/aton-ofz-uchastie-460.pdf",
-   idea:"Структурная облигация АТОН на ОФЗ 26249 со 100% защитой капитала и коэффициентом участия 400% в росте гособлигации. Срок 3 года, дата оценки начальных значений 13.08.2026.",
-   earn:"Продукт платформы АТОН (СФО «АТОН Структурные Решения»). Вознаграждение партнёра — от 3%.",
-   sell:"Для кого: квал с агрессивным риск-профилем, который верит в снижение ставок и рост ОФЗ. Аргумент: «капитал защищён на 100%, а в рост берём с четырёхкратным плечом».",
-   disclaimer:"Только для квалифицированных инвесторов с агрессивным риск-профилем. Доход не гарантирован. Материал АТОН, не является ИИР."},
   {id:"gld-uchastie",name:"Участие в золоте (GLD)",tagline:"+6,4% гарантировано дисконтом и весь рост золота — при 100% защите",track:"structured",provider:"Гарда Капитал",type:"Длящаяся облигация · защита",assets:["Золото (GLD)"],status:"В обращении",metricYield:"+6,4%",metricYieldLabel:"гарантир. дисконт + рост золота*",metricProtection:"100%",metricProtectionLabel:"защита капитала в ₽",entry:"от 1 000 000 ₽",commission:"1,6%",risk:"Низкий",real:false,
    idea:"«Длящаяся» облигация со 100% защитой рублёвого капитала: покупка с дисконтом даёт +6,4% гарантированно, плюс 100% участия в росте золота (GLD) в рублях. Погашение 26.02.2029.",
    earn:"Длящаяся облигация: покупка с дисконтом к номиналу уже даёт +6,4% гарантированно, а при погашении — 100% защита капитала в рублях плюс полное участие в росте золота (GLD). <b>Вознаграждение партнёра — 1,6%.</b>",
@@ -337,11 +316,6 @@ const O3_PRODUCTS=[
    earn:"Защита капитала 80%: при погашении возвращается не менее 80% номинала плюс участие в росте базового актива. Если актив не вырос — возврат 80% номинала. Базовый актив в валюте — пример расчёта приведён без учёта изменения курса, выплата дохода в рублях с учётом валютной переоценки.<br><br><b>Вознаграждение партнёра — до 50% от нашей комиссии.</b>",
    sell:"Для кого: клиент хочет зайти в тему ИИ, но боится просадок «чистых» технологических акций. Аргумент: «ИИ — это в первую очередь электричество; берём корзину энергетики США, но с защитой 80% и участием в росте». Проговорить: защита 80%, а не 100% — в худшем сценарии возвращается 800 ₽ на 1 000 ₽ номинала; расчёт в валюте.",
    disclaimer:"Только для квалифицированных инвесторов. Защита капитала 80%: при падении базового актива возвращается только защищённая часть номинала. Основной риск — кредитное качество эмитента облигации. Базовый актив в валюте — расчёт приведён без учёта изменения курса. Котировки индикативны, не является ИИР."},
-  {id:"preipo-frontline",name:"Pre-IPO корзина (Frontline)",tagline:"Ранние лидеры ИИ и данных до IPO, в долларах",track:"preipo",provider:"Frontline / O3",type:"Pre-IPO · USD",assets:["Applied Intuition","Cohesity","Vast Data","Higgsfield"],status:"Активная",metricYield:"IPO-апсайд*",metricYieldLabel:"рост до размещения, USD*",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"для квал. инвесторов",commission:"50% от комиссии компании",risk:"Высокий",real:false,pdf:"pdf/frontline-intro.pdf",
-   idea:"Корзина иностранных pre-IPO историй через организатора «Frontline»: Applied Intuition, Cohesity, Vast Data, Higgsfield. Реально проходившие сделки O3 в долларах. Кейс для истории: Cerebras вышла на биржу с +68% в первый день торгов.",
-   earn:"Организатор — «Frontline» (США), даёт больше всего сделок в потоке O3. Вознаграждение партнёра — 50% от комиссии компании в USD. Расчёты через дружественные юрисдикции.",
-   sell:"Для кого: квал, который хочет диверсифицированный венчурный апсайд, а не одну компанию. Аргумент: «корзина ранних лидеров ИИ и данных до IPO». Проговорить риск и неликвидность.",
-   disclaimer:"Только для квалифицированных инвесторов. Pre-IPO — высокий риск, низкая ликвидность; сроки и выход не гарантированы. Иностранные SPV. Cerebras приведён как исторический факт, а не обещание. Не является ИИР."},
   {id:"parus-realty",name:"ЗПИФ недвижимости «Парус»",tagline:"Реальные склады с крупными арендаторами, паи на бирже",track:"residency",provider:"ПАРУС Управление Активами",type:"Биржевой ЗПИФ недвижимости",assets:["Склады","Коммерция","ПАРУС-МАКС"],status:"В обращении",metricYield:"рента*",metricYieldLabel:"аренд. доход + переоценка*",metricProtection:"Реальный актив",metricProtectionLabel:"материальное обеспечение",entry:"от цены пая (биржа)",commission:"2–5%",risk:"Средний",real:false,
    idea:"Биржевые ЗПИФ складской и коммерческой недвижимости от «ПАРУС Управление Активами». Арендаторы — Ozon, Сбер Логистика, СДЭК. Фонд-фондов «ПАРУС-МАКС» собирает корзину объектов по РФ. Рентный доход + переоценка, защита от инфляции реальным активом.",
    earn:"Прямое партнёрство с «ПАРУС». Вознаграждение партнёра — 2–5%. Паи торгуются на бирже. Недвижимость и так входит в портфели O3 (10–20%) — доп. мотивация за это.",
@@ -392,36 +366,11 @@ const O3_PRODUCTS=[
    earn:"<b>Плюсы сделки.</b> Вход по оценке $6 млрд — дисконт ~14% к оценке последнего раунда ($7 млрд). Высокий целевой потенциал (×4–7) на прорывной технологии: при её реализации — кратный рост стоимости доли.<br><br><b>Как устроено.</b> SPV (Делавэр, США), вход от $100 000, длинный горизонт. Вознаграждение партнёра — 50% от комиссии компании.",
    sell:"Позиционирование: «ставка на квантовый прорыв по честной цене — для клиентов с венчурным аппетитом». Крючки — публикация в Nature, DARPA, господдержка, NVIDIA. Аудитория — только квал, осознанно готовый к длинному горизонту и бинарному исходу.",
    disclaimer:"Только для квалифицированных инвесторов. Pre-IPO и deeptech — очень высокий риск и низкая ликвидность; коммерциализация и сроки не гарантированы (длинный горизонт). Владение через иностранное SPV. Не является ИИР."},
-  {id:"sinara-yuan",name:"Размещение юаней (Синара)",tagline:"Фиксированная доходность в юанях на 3–9 месяцев",track:"funds",provider:"Синара",type:"Денежный рынок · юань",assets:["Юань (CNY)","Еврооблигации Минфина"],status:"Доступно",metricYield:"до 7,5%*",metricYieldLabel:"3 мес 7% · 6 мес 7,25% · 9 мес 7,5%*",metricProtection:"Синара",metricProtectionLabel:"Инвестбанк Синара",entry:"по запросу",commission:"по договору",risk:"Низкий",real:false,
-   idea:"Краткосрочное размещение юаней с фиксированной доходностью: 7% на 3 мес, 7,25% на 6 мес, 7,5% на 9 мес. Плюс — покупка еврооблигаций Минфина за доллары или евро без валютной переоценки. Провайдер — Инвестбанк Синара.",
-   earn:"Прямое партнёрство с Синарой (есть агентская мотивация). Простой консервативный продукт для валютной части портфеля. Вознаграждение партнёра — по договору.",
-   sell:"Для кого: консервативный клиент с юанями или желанием валютной доходности. Аргумент: «фиксированная ставка в юанях от надёжного банка, короткий срок». Хорошая точка первого касания.",
-   disclaimer:"Ставки указаны как условия размещения и могут измениться. Не является ИИР."},
-  {id:"preipo-blueorigin",name:"Pre-IPO Blue Origin",tagline:"Космос Джеффа Безоса — впервые за 26 лет открыт вход для инвесторов",track:"preipo",provider:"O3 Finance",type:"Pre-IPO · USD",assets:["Blue Origin","New Glenn","Blue Moon"],status:"Конкурент SpaceX",metricYield:"~44%*",metricYieldLabel:"потенциал годовых к ликвидности*",metricProtection:"$153 млрд",metricProtectionLabel:"оценка входа (post-money)",entry:"для квал. инвесторов",commission:"50% от комиссии компании",risk:"Высокий",real:false,pdf:"pdf/o3-blue-origin.pdf",
+  {id:"preipo-blueorigin",name:"Pre-IPO Blue Origin",tagline:"Космос Джеффа Безоса — впервые за 26 лет открыт вход для инвесторов",track:"preipo",provider:"Финсайт / O3",type:"Pre-IPO · USD",assets:["Blue Origin","New Glenn","Blue Moon"],status:"Конкурент SpaceX",metricYield:"~44%*",metricYieldLabel:"потенциал годовых к ликвидности*",metricProtection:"$153 млрд",metricProtectionLabel:"оценка входа (post-money)",entry:"для квал. инвесторов",commission:"50% от комиссии компании",risk:"Высокий",real:false,pdf:"pdf/o3-blue-origin.pdf",
    idea:"Единственный реальный конкурент SpaceX и вторая в мире компания, строящая сверхтяжёлые ракеты. Ракета New Glenn уже летает (3 орбитальных пуска, многоразовая первая ступень), госконтракты NASA и Пентагона на $6,5+ млрд, лунные модули Blue Moon. Впервые за 26 лет с основания компания открыла доступ внешним инвесторам — первый в своей истории раунд $10 млрд (оценка $130 млрд pre / $140 млрд post-money; лид-инвестор Coatue, сам Безос вкладывает $2 млрд).",
    earn:"Оценка входа $153 млрд post-money, владение через SPV. Ожидаемая ликвидность — 2-е полугодие 2029, потенциал ~44% годовых / 3.5x к выходу. Вознаграждение партнёра — 50% от комиссии компании.",
    sell:"Для кого: квал, который хочет войти во «второй SpaceX» на переломном моменте. Аргумент: «первая за 26 лет возможность купить долю Blue Origin — компания Безоса впервые пустила внешних инвесторов; дуополия на рынке сверхтяжёлых ракет». Проговорить длинный горизонт (2029) и неликвидность.",
    disclaimer:"Только для квалифицированных инвесторов. Pre-IPO — высокий риск и низкая ликвидность; сроки и ликвидность (H2 2029) не гарантированы. Владение через иностранную SPV. Доходность — прогноз, не гарантия. Не является ИИР."},
-  {id:"preipo-prometheus",name:"Pre-IPO Prometheus",tagline:"AI-стартап Джеффа Безоса для физической экономики",track:"preipo",provider:"Frontline / O3",type:"Pre-IPO · USD",assets:["Prometheus (Bezos AI)"],status:"Актуальная сделка",metricYield:"~3,6×*",metricYieldLabel:"базовый сценарий к 2028–2029*",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"для квал. инвесторов",commission:"50% от комиссии компании",risk:"Высокий",real:false,
-   idea:"«Искусственный инженер широкого профиля»: ИИ, который проектирует, тестирует и улучшает реальные физические продукты (двигатели, чипы, транспорт, материалы). Co-CEO — сам Безос (первая операционная роль с 2021) и Вик Баджадж (Stanford / Verily). Series A $6,2 млрд (11.2025), Series B $12 млрд при оценке $41 млрд (06.2026); суммарно привлечено $18,2 млрд. Инвесторы: JPMorgan, BlackRock, Goldman, DST, ARCH.",
-   earn:"Организатор — «Frontline» (Frontline One Capital). Цена входа $55 млрд. Базовый сценарий (захват 2% рынка) — оценка ~$192 млрд, потенциал ~3,6× к 2028–2029; консервативный ~1,7×, оптимистичный ~8,7×. Вознаграждение партнёра — 50% от комиссии компании.",
-   sell:"Для кого: квал, верящий в «физический ИИ» и в Безоса. Аргумент: «ставка на следующий этап ИИ — реальное производство, во главе с Безосом». Проговорить, что оценки — сценарные прогнозы, риск и неликвидность.",
-   disclaimer:"Только для квалифицированных инвесторов. Pre-IPO — высокий риск и низкая ликвидность; выход и сроки не гарантированы. Оценки роста — сценарные прогнозы, не гарантия. Иностранная структура. Не является ИИР."},
-  {id:"preipo-vastdata",name:"Pre-IPO VAST Data",tagline:"Инфраструктура данных для эпохи ИИ — партнёр NVIDIA и AMD",track:"preipo",provider:"Frontline / O3",type:"Pre-IPO · USD",assets:["VAST Data"],status:"История успеха портфеля",metricYield:"рост*",metricYieldLabel:"переоценка до IPO, USD*",metricProtection:"—",metricProtectionLabel:"без защиты",entry:"для квал. инвесторов",commission:"50% от комиссии компании",risk:"Высокий",real:false,pdf:"pdf/vast-data.pdf",
-   idea:"VAST Data — платформа хранения и данных для ИИ; технологический партнёр сразу двух лидеров AI-чипов (NVIDIA и AMD). Расширенное партнёрство с AMD (интеграция VAST AI OS с чипами Instinct MI355X) выводит производительность AI-фабрик на новый уровень. Портфельная компания Frontline с историей роста.",
-   earn:"Организатор — «Frontline». Вознаграждение партнёра — 50% от комиссии компании. Есть свежий квартальный отчёт по компании (PDF) — показывать как «историю успеха».",
-   sell:"Для кого: квал, верящий в инфраструктуру ИИ («данные — новое золото»). Аргумент: «партнёр и NVIDIA, и AMD — выигрывает независимо от того, чьё железо победит». Проговорить риск и неликвидность.",
-   disclaimer:"Только для квалифицированных инвесторов. Pre-IPO — высокий риск и низкая ликвидность; сроки и выход не гарантированы. Иностранная структура. Не является ИИР."},
-  {id:"sinara-eurobonds",name:"Еврооблигации Минфина (Синара)",tagline:"Валютная доходность на суверенном эмитенте без переоценки",track:"funds",provider:"Синара",type:"Облигации · валюта",assets:["Еврооблигации Минфина РФ"],status:"Доступно",metricYield:"валютная*",metricYieldLabel:"купон в $/€*",metricProtection:"Минфин РФ",metricProtectionLabel:"суверенный эмитент",entry:"по запросу",commission:"по договору",risk:"Низкий",real:false,
-   idea:"Покупка еврооблигаций Минфина РФ за доллары или евро без валютной переоценки — валютный доход от суверенного эмитента. Провайдер — Инвестбанк Синара.",
-   earn:"Прямое партнёрство с Синарой (есть агентская мотивация). Простой валютный инструмент для консервативной части портфеля. Вознаграждение партнёра — по договору.",
-   sell:"Для кого: консервативный клиент, которому нужна валютная доходность на надёжном эмитенте без переоценки рубля. Аргумент: «купон в валюте от Минфина».",
-   disclaimer:"Стоимость облигаций может меняться. Не является ИИР."},
-  {id:"sinara-warm",name:"«Тёплый приём» (Синара)",tagline:"0,5% за перевод бумаг от другого брокера",track:"funds",provider:"Синара",type:"Акция · перевод активов",assets:["Высоколиквидные бумаги"],status:"Акция",metricYield:"0,5%",metricYieldLabel:"бонус за перевод бумаг",metricProtection:"от 10 млн",metricProtectionLabel:"порог перевода",entry:"от 10 000 000 ₽",commission:"по договору",risk:"Низкий",real:false,
-   idea:"Акция Инвестбанка Синара: 0,5% за высоколиквидные бумаги, переведённые от другого брокера, от 10 млн ₽. Условие — не продавать и не выводить бумаги полгода после зачисления. Повод перевести активы клиента в наш контур.",
-   earn:"Инструмент привлечения: помогает перевести активы клиента к нам и заодно получить бонус. Вознаграждение партнёра — по договору.",
-   sell:"Для кого: клиент с портфелем у другого брокера от 10 млн ₽. Аргумент: «переведите бумаги — получите 0,5% сверху». Мягкий повод начать работу и завести клиента в наш контур.",
-   disclaimer:"Условия акции могут измениться. Требуется удержание бумаг 6 месяцев. Не является ИИР."},
   {id:"parus-max",name:"ЗПИФ «ПАРУС-МАКС»",tagline:"Фонд фондов недвижимости — готовая диверсифицированная корзина",track:"residency",provider:"ПАРУС Управление Активами",type:"Биржевой ЗПИФ · фонд фондов",assets:["Корзина ЗПИФ Парус","Склады · коммерция РФ"],status:"В обращении",metricYield:"рента*",metricYieldLabel:"доход корзины объектов*",metricProtection:"Реальный актив",metricProtectionLabel:"диверсификация по объектам РФ",entry:"от цены пая (биржа)",commission:"2–5%",risk:"Средний",real:false,
    idea:"«ПАРУС-МАКС» — фонд фондов: одна покупка даёт диверсифицированную корзину биржевых ЗПИФ Парус (склады и коммерция по РФ, арендаторы Ozon, Сбер Логистика, СДЭК). Объекты переоцениваются раз в 6 месяцев. Готовое «ядро недвижимости» для портфеля.",
    earn:"Прямое партнёрство с «ПАРУС». Вознаграждение партнёра — 2–5%. Паи торгуются на бирже. Недвижимость и так входит в портфели O3 (10–20%).",
@@ -435,7 +384,7 @@ const O3_PRODUCTS=[
 ];
 
 const P=O3_PRODUCTS;
-const state={search:"",tracks:new Set(),provider:"",type:"",risk:"",protOnly:false,manager:false};
+const state={search:"",tracks:new Set(),provider:"",manager:false};
 const $=s=>document.querySelector(s);
 const grid=$("#grid");
 
@@ -450,16 +399,10 @@ function buildTracks(){
   });
 }
 function buildProviders(){const set=[...new Set(P.map(p=>p.provider))].sort();const el=$("#providerPick");el.innerHTML='<option value="">Все провайдеры</option>'+set.map(s=>'<option>'+s+'</option>').join("");el.onchange=()=>{state.provider=el.value;render();};}
-function buildTypes(){const set=[...new Set(P.map(p=>p.type))].sort();const el=$("#typePick");el.innerHTML='<option value="">Все типы</option>'+set.map(s=>'<option>'+s+'</option>').join("");el.onchange=()=>{state.type=el.value;render();};}
-function buildRisk(){const el=$("#riskChips");const risks=["Низкий","Средний","Высокий"];el.innerHTML=risks.map(r=>'<div class="chip" data-r="'+r+'">'+r+'</div>').join("");
-  el.querySelectorAll(".chip").forEach(ch=>ch.onclick=()=>{const r=ch.dataset.r;if(state.risk===r){state.risk="";ch.classList.remove("on");}else{el.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));state.risk=r;ch.classList.add("on");}render();});}
 
 function match(p){
   if(state.tracks.size && !state.tracks.has(p.track))return false;
   if(state.provider && p.provider!==state.provider)return false;
-  if(state.type && p.type!==state.type)return false;
-  if(state.risk && p.risk!==state.risk)return false;
-  if(state.protOnly && !(p.metricProtection && /100|защит|барьер|оболоч|актив|реальн/i.test(p.metricProtection+p.metricProtectionLabel)))return false;
   if(state.search){const q=state.search.toLowerCase();const hay=(p.name+p.tagline+p.provider+p.type+(p.assets||[]).join(" ")+TRACKS[p.track].label).toLowerCase();if(!hay.includes(q))return false;}
   return true;
 }
@@ -526,10 +469,9 @@ $("#scrim").onclick=closeDrawer;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeSidebar();}});
 
 $("#search").oninput=e=>{state.search=e.target.value;render();};
-$("#protToggle").onclick=()=>{state.protOnly=!state.protOnly;$("#protSwitch").classList.toggle("on");render();};
 $("#mgrToggle").onclick=()=>{state.manager=!state.manager;$("#mgrSwitch").classList.toggle("on");const open=document.querySelector(".drawer.on");if(open){const cur=P.find(x=>x.name===open.querySelector("h2").textContent);if(cur)openDrawer(cur.id);}};
 $("#resetTracks").onclick=e=>{e.stopPropagation();state.tracks.clear();document.querySelectorAll(".track-item").forEach(x=>x.classList.remove("on"));render();};
-$("#resetAll").onclick=()=>{state.search="";state.tracks.clear();state.provider="";state.type="";state.risk="";state.protOnly=false;$("#search").value="";$("#providerPick").value="";$("#typePick").value="";document.querySelectorAll(".track-item,.chip").forEach(x=>x.classList.remove("on"));$("#protSwitch").classList.remove("on");render();};
+$("#resetAll").onclick=()=>{state.search="";state.tracks.clear();state.provider="";$("#search").value="";$("#providerPick").value="";document.querySelectorAll(".track-item").forEach(x=>x.classList.remove("on"));render();};
 
 function openSidebar(){$("#sidebar").classList.add("open");$("#sideScrim").classList.add("on");}
 function closeSidebar(){$("#sidebar").classList.remove("open");$("#sideScrim").classList.remove("on");}
@@ -539,7 +481,7 @@ $("#sideScrim").onclick=closeSidebar;
 $("#collapseBtn").onclick=()=>$(".app").classList.add("filters-collapsed");
 $("#expandBtn").onclick=()=>$(".app").classList.remove("filters-collapsed");
 
-buildTracks();buildProviders();buildTypes();buildRisk();render();
+buildTracks();buildProviders();render();
 </script>
 </body>
 </html>
